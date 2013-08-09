@@ -371,7 +371,7 @@ namespace MarkdownDeep
 			{
 				if (sp.eol)
 				{
-					sb.AppendLine();
+					sb.Append('\n');
 					sp.SkipEol();
 				}
 				else

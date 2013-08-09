@@ -16,9 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-#if WINDOWS_PHONE
-using System.Windows.Media.Imaging;
-#endif
 
 namespace MarkdownDeep
 {
@@ -155,19 +152,18 @@ namespace MarkdownDeep
 				// Render footnotes
 				if (m_UsedFootnotes.Count > 0)
 				{
-				    sb.AppendLine();
-					sb.Append("<div class=\"");
+					sb.Append("\n<div class=\"");
 					sb.Append(HtmlClassFootnotes);
-					sb.AppendLine("\">");
-					sb.AppendLine("<hr />");
-					sb.AppendLine("<ol>");
+					sb.Append("\">\n");
+					sb.Append("<hr />\n");
+					sb.Append("<ol>\n");
 					for (int i = 0; i < m_UsedFootnotes.Count; i++)
 					{
 						var fn = m_UsedFootnotes[i];
 
 						sb.Append("<li id=\"fn:");
 						sb.Append((string)fn.data);	// footnote id
-						sb.AppendLine("\">");
+						sb.Append("\">\n");
 
 
 						// We need to get the return link appended to the last paragraph
@@ -193,10 +189,10 @@ namespace MarkdownDeep
 
 						fn.Render(this, sb);
 
-						sb.AppendLine("</li>");
+						sb.Append("</li>\n");
 					}
-					sb.AppendLine("</ol>");
-					sb.AppendLine("</div>");
+					sb.Append("</ol>\n");
+					sb.Append("</div>\n");
 				}
 			}
 
@@ -418,15 +414,9 @@ namespace MarkdownDeep
 			//Create an image object from the uploaded file
 			try
 			{
-#if WINDOWS_PHONE
-			    var img = new BitmapImage(new Uri(str, UriKind.RelativeOrAbsolute));
-			    width = img.PixelWidth;
-			    height = img.PixelHeight;
-#else
 				var img = System.Drawing.Image.FromFile(str);
 				width=img.Width;
 				height=img.Height;
-#endif
 
 				if (MaxImageWidth != 0 && width>MaxImageWidth)
 				{
@@ -667,11 +657,9 @@ namespace MarkdownDeep
 					// have a line break after the previous section.
 					string strPrev = sections[sections.Count - 1];
 					if (strPrev.Length > 0 && !strPrev.EndsWith("\n") && !strPrev.EndsWith("\r"))
-						sb.AppendLine();
+						sb.Append("\n");
 
-				    sb.AppendLine();
-					sb.Append("===");
-				    sb.AppendLine();
+					sb.Append("\n===\n\n");
 				}
 
 				sb.Append(sections[i]);
@@ -729,7 +717,7 @@ namespace MarkdownDeep
 					// have a line break after the previous section.
 					string strPrev = sections[sections.Count - 1];
 					if (strPrev.Length>0 && !strPrev.EndsWith("\n") && !strPrev.EndsWith("\r"))
-						sb.AppendLine();
+						sb.Append("\n");
 				}
 
 				sb.Append(sections[i]);
@@ -859,7 +847,7 @@ namespace MarkdownDeep
 
 					case '\r':
 					case '\n':
-						dest.AppendLine();
+						dest.Append('\n');
 						pos = 0;
 						p.SkipEol();
 						continue;

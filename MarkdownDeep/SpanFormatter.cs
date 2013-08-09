@@ -44,30 +44,30 @@ namespace MarkdownDeep
 				// Render the div opening
 				dest.Append("<div class=\"");
 				dest.Append(m_Markdown.HtmlClassTitledImages);
-				dest.AppendLine("\">");
+				dest.Append("\">\n");
 
 				// Render the img
 				m_Markdown.RenderingTitledImage = true;
 				Render(dest, str);
 				m_Markdown.RenderingTitledImage = false;
-				dest.AppendLine();
+				dest.Append("\n");
 
 				// Render the title
 				if (!String.IsNullOrEmpty(li.def.title))
 				{
 					dest.Append("<p>");
 					Utils.SmartHtmlEncodeAmpsAndAngles(dest, li.def.title);
-					dest.AppendLine("</p>");
+					dest.Append("</p>\n");
 				}
 				
-				dest.AppendLine("</div>");
+				dest.Append("</div>\n");
 			}
 			else
 			{
 				// Render the paragraph
 				dest.Append("<p>");
 				Render(dest, str);
-				dest.AppendLine("</p>");
+				dest.Append("</p>\n");
 			}
 		}
 
@@ -192,7 +192,7 @@ namespace MarkdownDeep
 						break;
 
 					case TokenType.br:
-						sb.AppendLine("<br />");
+						sb.Append("<br />\n");
 						break;
 
 					case TokenType.open_em:
