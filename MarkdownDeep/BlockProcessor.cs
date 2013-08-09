@@ -413,7 +413,7 @@ namespace MarkdownDeep
 			foreach (var l in lines)
 			{
 				b.Append(l.buf, l.contentStart, l.contentLen);
-				b.Append('\n');
+				b.AppendLine();
 			}
 			return b.ToString();
 		}
@@ -1080,7 +1080,7 @@ namespace MarkdownDeep
 			}
 
 			// Head block extraction?
-			bool bHeadBlock = m_markdown.ExtractHeadBlocks && string.Compare(openingTag.name, "head", true) == 0;
+			bool bHeadBlock = m_markdown.ExtractHeadBlocks && string.Compare(openingTag.name, "head", StringComparison.OrdinalIgnoreCase) == 0;
 			int headStart = this.position;
 
 			// Work out the markdown mode for this element
@@ -1211,7 +1211,7 @@ namespace MarkdownDeep
 							if (bHeadBlock)
 							{
 								var content = this.Substring(headStart, posStartCurrentTag - headStart);
-								m_markdown.HeadBlockContent = (m_markdown.HeadBlockContent ?? "") + content.Trim() + "\n";
+								m_markdown.HeadBlockContent = (m_markdown.HeadBlockContent ?? "") + content.Trim() + Environment.NewLine;
 								b.blockType = BlockType.html;
 								b.contentStart = position;
 								b.contentEnd = position;
@@ -1322,7 +1322,7 @@ namespace MarkdownDeep
 					{
 						var l = lines[j];
 						sb.Append(l.buf, l.contentStart, l.contentLen);
-						sb.Append('\n');
+						sb.AppendLine();
 
 						if (lines[j].blockType == BlockType.Blank)
 						{
@@ -1396,7 +1396,7 @@ namespace MarkdownDeep
 			{
 				var l = lines[i];
 				sb.Append(l.buf, l.contentStart, l.contentLen);
-				sb.Append('\n');
+				sb.AppendLine();
 			}
 
 			// Create the item and process child blocks
@@ -1464,7 +1464,7 @@ namespace MarkdownDeep
 			{
 				var l = lines[i];
 				sb.Append(l.buf, l.contentStart, l.contentLen);
-				sb.Append('\n');
+				sb.AppendLine();
 			}
 
 			// Create the item and process child blocks

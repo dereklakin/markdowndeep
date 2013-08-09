@@ -111,30 +111,32 @@ namespace MarkdownDeep
 				m.SpanFormatter.Format(b, row[i]);
 				b.Append("</");
 				b.Append(type);
-				b.Append(">\n");
+				b.AppendLine(">");
 			}
 		}
 	
 		public void Render(Markdown m, StringBuilder b)
 		{
-			b.Append("<table>\n");
+			b.AppendLine("<table>");
 			if (Headers != null)
 			{
-				b.Append("<thead>\n<tr>\n");
+				b.AppendLine("<thead>");
+			    b.AppendLine("<tr>");
 				RenderRow(m, b, Headers, "th");
-				b.Append("</tr>\n</thead>\n");
+				b.AppendLine("</tr>");
+			    b.AppendLine("</thead>");
 			}
 
-			b.Append("<tbody>\n");
+			b.AppendLine("<tbody>");
 			foreach (var row in Rows)
 			{
-				b.Append("<tr>\n");
+				b.AppendLine("<tr>");
 				RenderRow(m, b, row, "td");
-				b.Append("</tr>\n");
+				b.AppendLine("</tr>");
 			}
-			b.Append("</tbody>\n");
+			b.AppendLine("</tbody>");
 
-			b.Append("</table>\n");
+			b.AppendLine("</table>");
 		}
 
 		public static TableSpec Parse(StringScanner p)

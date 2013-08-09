@@ -80,7 +80,7 @@ namespace MarkdownDeep
 						foreach (var line in children)
 						{
 							s.Append(line.Content);
-							s.Append('\n');
+							s.AppendLine();
 						}
 						return s.ToString();
 				}
@@ -153,7 +153,7 @@ namespace MarkdownDeep
 
 				case BlockType.span:
 					m.SpanFormatter.Format(b, buf, contentStart, contentLen);
-					b.Append("\n");
+					b.AppendLine();
 					break;
 
 				case BlockType.h1:
@@ -182,11 +182,11 @@ namespace MarkdownDeep
 						b.Append("<" + blockType.ToString() + ">");
 					}
 					m.SpanFormatter.Format(b, buf, contentStart, contentLen);
-					b.Append("</" + blockType.ToString() + ">\n");
+                    b.AppendLine("</" + blockType.ToString() + ">");
 					break;
 
 				case BlockType.hr:
-					b.Append("<hr />\n");
+                    b.AppendLine("<hr />");
 					return;
 
 				case BlockType.user_break:
@@ -196,45 +196,45 @@ namespace MarkdownDeep
 				case BlockType.ul_li:
 					b.Append("<li>");
 					m.SpanFormatter.Format(b, buf, contentStart, contentLen);
-					b.Append("</li>\n");
+					b.AppendLine("</li>");
 					break;
 
 				case BlockType.dd:
 					b.Append("<dd>");
 					if (children != null)
 					{
-						b.Append("\n");
+						b.AppendLine();
 						RenderChildren(m, b);
 					}
 					else
 						m.SpanFormatter.Format(b, buf, contentStart, contentLen);
-					b.Append("</dd>\n");
+					b.AppendLine("</dd>");
 					break;
 
 				case BlockType.dt:
 				{
 					if (children == null)
 					{
-						foreach (var l in Content.Split('\n'))
+						foreach (var l in Content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
 						{
 							b.Append("<dt>");
 							m.SpanFormatter.Format(b, l.Trim());
-							b.Append("</dt>\n");
+							b.AppendLine("</dt>");
 						}
 					}
 					else
 					{
-						b.Append("<dt>\n");
+						b.AppendLine("<dt>");
 						RenderChildren(m, b);
-						b.Append("</dt>\n");
+						b.AppendLine("</dt>");
 					}
 					break;
 				}
 
 				case BlockType.dl:
-					b.Append("<dl>\n");
+					b.AppendLine("<dl>");
 					RenderChildren(m, b);
-					b.Append("</dl>\n");
+					b.AppendLine("</dl>");
 					return;
 
 				case BlockType.html:
@@ -252,7 +252,7 @@ namespace MarkdownDeep
 						foreach (var line in children)
 						{
 							m.HtmlEncodeAndConvertTabsToSpaces(sb, line.buf, line.contentStart, line.contentLen);
-							sb.Append("\n");
+							sb.AppendLine();
 						}
 						b.Append(m.FormatCodeBlock(m, sb.ToString()));
 					}
@@ -262,34 +262,35 @@ namespace MarkdownDeep
 						foreach (var line in children)
 						{
 							m.HtmlEncodeAndConvertTabsToSpaces(b, line.buf, line.contentStart, line.contentLen);
-							b.Append("\n");
+							b.AppendLine();
 						}
-						b.Append("</code></pre>\n\n");
+						b.AppendLine("</code></pre>");
+					    b.AppendLine();
 					}
 					return;
 
 				case BlockType.quote:
-					b.Append("<blockquote>\n");
+					b.AppendLine("<blockquote>");
 					RenderChildren(m, b);
-					b.Append("</blockquote>\n");
+					b.AppendLine("</blockquote>");
 					return;
 
 				case BlockType.li:
-					b.Append("<li>\n");
+					b.AppendLine("<li>");
 					RenderChildren(m, b);
-					b.Append("</li>\n");
+					b.AppendLine("</li>");
 					return;
 
 				case BlockType.ol:
-					b.Append("<ol>\n");
+					b.AppendLine("<ol>");
 					RenderChildren(m, b);
-					b.Append("</ol>\n");
+					b.AppendLine("</ol>");
 					return;
 
 				case BlockType.ul:
-					b.Append("<ul>\n");
+					b.AppendLine("<ul>");
 					RenderChildren(m, b);
-					b.Append("</ul>\n");
+					b.AppendLine("</ul>");
 					return;
 
 				case BlockType.HtmlTag:
@@ -307,10 +308,10 @@ namespace MarkdownDeep
 					}
 
 					tag.RenderOpening(b);
-					b.Append("\n");
+					b.AppendLine();
 					RenderChildren(m, b);
 					tag.RenderClosing(b);
-					b.Append("\n");
+					b.AppendLine();
 					return;
 
 				case BlockType.Composite:
@@ -330,13 +331,13 @@ namespace MarkdownDeep
 						b.Append("&nbsp;");
 					}
 					b.Append((string)data);
-					b.Append("</p>\n");
+					b.AppendLine("</p>");
 					break;
 
 				default:
 					b.Append("<" + blockType.ToString() + ">");
 					m.SpanFormatter.Format(b, buf, contentStart, contentLen);
-					b.Append("</" + blockType.ToString() + ">\n");
+					b.AppendLine("</" + blockType.ToString() + ">");
 					break;
 			}
 		}
@@ -375,7 +376,7 @@ namespace MarkdownDeep
 				case BlockType.dd:
 					if (children != null)
 					{
-						b.Append("\n");
+						b.AppendLine();
 						RenderChildrenPlain(m, b);
 					}
 					else
@@ -386,7 +387,7 @@ namespace MarkdownDeep
 					{
 						if (children == null)
 						{
-							foreach (var l in Content.Split('\n'))
+							foreach (var l in Content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
 							{
 								var str = l.Trim();
 								m.SpanFormatter.FormatPlain(b, str, 0, str.Length);

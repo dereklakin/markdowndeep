@@ -314,7 +314,7 @@ namespace MarkdownDeep
 		// Does current string position match a string
 		public bool DoesMatchI(string str)
 		{
-			return string.Compare(str, Substring(position, str.Length), true) == 0;
+		    return string.Compare(str, Substring(position, str.Length), StringComparison.OrdinalIgnoreCase) == 0;
 		}
 
 		// Extract a substring
