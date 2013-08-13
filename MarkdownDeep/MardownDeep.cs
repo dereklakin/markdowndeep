@@ -16,6 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if WINDOWS_PHONE
+using System.Windows.Media.Imaging;
+#endif
 
 namespace MarkdownDeep
 {
@@ -414,9 +417,15 @@ namespace MarkdownDeep
 			//Create an image object from the uploaded file
 			try
 			{
+#if WINDOWS_PHONE
+			    var img = new BitmapImage(new Uri(str, UriKind.RelativeOrAbsolute));
+			    width = img.PixelWidth;
+			    height = img.PixelHeight;
+#else
 				var img = System.Drawing.Image.FromFile(str);
 				width=img.Width;
 				height=img.Height;
+#endif
 
 				if (MaxImageWidth != 0 && width>MaxImageWidth)
 				{
